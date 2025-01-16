@@ -17,6 +17,7 @@ export EXPOSENAME=exposecollector
 
 echo "Installing otel collector"
 kubectl create secret generic coralogix-keys --from-literal=PRIVATE_KEY=${CORALOGIX_API_KEY}
+helm dependency build otel-integration
 helm upgrade --install otel-coralogix-integration ./otel-integration --render-subchart-notes --set global.domain="cx498.coralogix.com" --set global.clusterName=${CLUSTER}
 
 ready=`kubectl get daemonset coralogix-opentelemetry-agent | awk 'FNR==2{print $4}'`
