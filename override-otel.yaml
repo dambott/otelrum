@@ -1,0 +1,7 @@
+---
+global:
+  clusterName: onlineboutique2
+  domain: cx498.coralogix.com
+opentelemetry-agent:
+  fullnameOverride: my-otel-demo-otelcol
+  mode: deployment

@@ -1,0 +1,31 @@
+# Override values for E2E test - instead of exporting to Coralogix, export to a local sink used in the E2E test
+global:
+  logLevel: "debug"
+  hostedEndpoint: "host.docker.internal"
+
+opentelemetry-agent:
+  presets:
+    hostMetrics:
+      enabled: true
+      # Enables process metrics scraping.
+      # Disabled by default, requires privilleged mode
+      process:
+        enabled: true
+      collectionInterval: "30s"
+  config:
+    exporters:
+      otlp:
+        endpoint: "{{.Values.global.hostedEndpoint}}:4317"
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        metrics:
+          exporters:
+            - otlp
+        traces:
+          exporters:
+            - otlp
+        logs:
+          exporters:
+            - debug
